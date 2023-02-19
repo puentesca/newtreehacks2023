@@ -13,7 +13,7 @@ public class ImageAIDallE : MonoBehaviour
     // Pricing: https://openai.com/api/pricing/
     // The alternative class ImageAI runs locally and is free.
 
-    public static string key = null;
+    public static string key = "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";
     const int callCountMaxForSecurity = 25;
     static int callCount = 0;
 

@@ -6,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
+using UnityEngine.UI;
 namespace Universe
 {
 
@@ -13,31 +14,26 @@ namespace Universe
 {
     // Here we show how a cube is textured via StableDiffusion, and a
     // text completed via GPT-3.
-
-    [SerializeField] GameObject testCube = null;
+	
+    RawImage testCube = null;
     
     TextAI textAI = null;
 
     void Awake()
     {
-        const string pathPrefix = @"D:\_misc\";
-
-        Cache.rootFolder = pathPrefix + "Cache";
-
-        string openAIKey = File.ReadAllText(pathPrefix + "openai-key.txt");
+        string openAIKey = "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";
         TextAI.key  = openAIKey;
         CoroutineVariant.TextAI.key = openAIKey;
         ImageAIDallE.key = openAIKey;
-
-        ImageAIReplicate.key = File.ReadAllText(pathPrefix + "replicate-key.txt");
-
         textAI = Misc.GetAddComponent<TextAI>(gameObject);
     }
 
     void Start()
     {
         // TestTextAI();
-        // TestImageAI();
+        TestImageAIDallE();
+        //TestImageAI();
+
         // StartCoroutine(TestWhenAll_Coroutine());
     }
 
@@ -106,17 +102,17 @@ namespace Universe
     {
         ImageAI imageAI = Misc.GetAddComponent<ImageAI>(gameObject);
 
-        string prompt = "person on mountain, minimalist 3d";
+        string prompt = "Adventure, Thrills, and Family";
         Debug.Log("Sending prompt " + prompt);
 
         StartCoroutine(
             imageAI.GetImage(prompt, (Texture2D texture) =>
             {
                 Debug.Log("Done.");
-                Renderer renderer = testCube.GetComponent<Renderer>();
-                renderer.material.mainTexture = texture;
+                //Renderer renderer = testCube.GetComponent<Renderer>();
+                testCube.texture = texture;
             },
-            useCache: false,
+            useCache: true,
             width: 256, height: 256
         ));
     }
@@ -125,7 +121,7 @@ namespace Universe
     {
         ImageAIDallE imageAI = Misc.GetAddComponent<ImageAIDallE>(gameObject);
 
-        string prompt = "wizard's hut, black background, artstation asset";
+        string prompt ="Adventure, Thrills, and Family: Exploring Chile through White Water Rafting, minimalist 3d";
         Debug.Log("Sending prompt " + prompt);
 
         const int size = 1024;
