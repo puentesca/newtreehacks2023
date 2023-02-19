@@ -15,6 +15,8 @@ namespace Meta.WitAi.Events.UnityEventListeners
         public WitTranscriptionEvent OnFullTranscription => onFullTranscription;
 
         private ITranscriptionEvent _events;
+        
+        
 
         private ITranscriptionEvent TranscriptionEvents
         {
@@ -38,8 +40,8 @@ namespace Meta.WitAi.Events.UnityEventListeners
             var events = TranscriptionEvents;
             if (null != events)
             {
-                events.OnPartialTranscription.AddListener(onPartialTranscription.Invoke);
-                events.OnFullTranscription.AddListener(onFullTranscription.Invoke);
+                events.OnPartialTranscription.AddListener(OnPartialTranscription.Invoke);
+                events.OnFullTranscription.AddListener(OnFullTranscription.Invoke);
             }
         }
 
