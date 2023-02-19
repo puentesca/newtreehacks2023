@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerStatus = STATUS.VIEWING_STORIES;
+        StartConversationFinished();
     }
 
     // Update is called once per frame

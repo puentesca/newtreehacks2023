@@ -83,8 +83,9 @@ public class ConversationManager : MonoBehaviour
             "end the conversation and generate a summary of the story. REMEMBER: 1. You are NOT " +
             "supposed to generate the response for the person you are interviewing - you are only " +
             "supposed to ask questions. Their input will come in a response form as text. 2. Do not " +
-            "forget to reasonable engage the person as much as possible with the goal of gathering details" +
-            "for a summary of the story, but also to make them feel like they're having fun. As for the " +
+            "forget to reasonably engage the person with the goal of gathering details, but also don't dive" +
+            "too deep into one topic. Ask about other aspects of their topic/experience rather than laser focusing in " +
+            "on only one things. Make them feel like they're having fun also! As for the " +
             "person you are extracting the information from, they were asked to provide a summary of their" +
             "name and what topic they wanted to talk about. Their response was: '" + text + "'. Your name, " +
             "the interviewer, is John. You may introduce yourself and ask your first question about the topic they " +
