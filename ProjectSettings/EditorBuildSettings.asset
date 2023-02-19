@@ -9,12 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/ExtractionScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
-<<<<<<< HEAD
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 580a82c19a52b40edb953aee645d3710,
       type: 2}
-=======
-    Unity.XR.Oculus.Settings: {fileID: 0}
->>>>>>> 071236b6becc9974f17477f8ac959e2f00fe091d
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba,
       type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 9bec1ce6a03ccba4b9a8215241b32e63,
