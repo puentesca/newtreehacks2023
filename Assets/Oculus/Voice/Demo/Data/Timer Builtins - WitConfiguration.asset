@@ -12,21 +12,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5a46bda3295124c99b0e6537ac7252, type: 3}
   m_Name: Timer Builtins - WitConfiguration
   m_EditorClassIdentifier: 
-  _clientAccessToken: HOKEABS7HPIQVSRSVWRPTTV75TQJ5QBP
+  _clientAccessToken: 3YCTI6FNMKA7QRJYUKOUIKRONNPI3GD5
   _appInfo:
-    name: Built-in Models
-    id: voiceSDK_en
+    name: treehacks2023
+    id: 881611486444013
     lang: en
     isPrivate: 0
-    createdAt: 
-    trainingStatus: 0
+    createdAt: 2023-02-18T22:13:24-0800
+    trainingStatus: 1
     lastTrainDuration: 0
-    lastTrainedAt: 
-    nextTrainAt: 
+    lastTrainedAt: 1969-12-31T16:00:00-0800
+    nextTrainAt: 1969-12-31T16:00:00-0800
     intents: []
     entities: []
     traits: []
-    voices: []
+    voices:
+    - name: Charlie
+      locale: en_US
+      gender: male
+      styles:
+      - default
+      - soft
+      - fast
+      - projected
+    - name: Cooper
+      locale: en_US
+      gender: male
+      styles:
+      - default
+      - soft
+      - formal
+      - fast
+      - projected
+    - name: Prospector
+      locale: en_US
+      gender: male
+      styles:
+      - default
+    - name: Rebecca
+      locale: en_US
+      gender: female
+      styles:
+      - default
+      - soft
+      - formal
+      - fast
+      - projected
+    - name: Vampire
+      locale: en_US
+      gender: male
+      styles:
+      - default
+      - soft
+      - formal
+      - fast
+      - projected
   _configurationId: 74f17110584875d438c76cba2242da14
   timeoutMS: 10000
   endpointConfiguration:

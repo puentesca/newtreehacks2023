@@ -15,14 +15,7 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OVRInput.Update();
-        if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0.0f && !testObj.activeInHierarchy)
-        {
-            testObj.SetActive(true);
-        } else if (testObj.activeInHierarchy)
-        {
-            testObj.SetActive(false);
-        }
+       
     }
 
     void FixedUpdate()
