@@ -34,8 +34,10 @@ public class ConversationManager : MonoBehaviour
         CONVERSATION_COMPLETED
     }
 
-
+    private bool dalleRequested = false;
+    private bool summaryRequested = false;
     private CONVERSATION_STATUS currentStatus;
+    public TTSManager tts;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +52,8 @@ public class ConversationManager : MonoBehaviour
 
     public void BeginConversation()
     {
+        summaryRequested = false;
+        dalleRequested = false;
         currentStatus = CONVERSATION_STATUS.GATHERING_NAME_AND_TOPIC;
         //Prompt user for their name and topic through TTS.
     }
@@ -103,6 +107,21 @@ public class ConversationManager : MonoBehaviour
         UserResponded(GetGoodbyePrompt());
 
         //Add a call to a 4 second wait for the summary prompt to be called.
+        StartCoroutine(GenerateSummaryWithDelay());
+    }
+
+
+    private string GetDALLEPrompt()
+    {
+        string message = "";
+        return message;
+    }
+
+    IEnumerator GenerateSummaryWithDelay()
+    {
+        yield return new WaitForSeconds(4f); // Sleep for 4 seconds
+        summaryRequested = true;
+        chatGPT.SendToChatGPT(GetSummaryPrompt());
     }
 
     //When the user responds
@@ -129,9 +148,22 @@ public class ConversationManager : MonoBehaviour
     // AI interaction
     public void AIResponded(string text)
     {
+        if (dalleRequested)
+        {
+            // use the dalle prompt to create a request for a representative image.
+        }
+        else if(summaryRequested)
+        {
+            // save the summary or display it.
+            chatGPT.SendToChatGPT(GetDALLEPrompt());
+            dalleRequested = true;
+        } else if (dalleRequested)
+        {
+            // Text to speech the response
+            tts.SpeakText(text);
+            Debug.Log("AI Responded: " + text);
+        }
         
-        // Text to speech the response
-        Debug.Log("AI Responded: " + text);
 
     }
 }
