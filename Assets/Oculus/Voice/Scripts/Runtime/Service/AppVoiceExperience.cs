@@ -304,10 +304,6 @@ namespace Oculus.Voice
         }
 
         #region Event listeners for logging
-        
-        void OnPartialTranscription(String transcription){
-        	Debug.Log("They say" + transcription);
-        }
 
         void OnWitResponseListener(WitResponseNode witResponseNode)
         {
