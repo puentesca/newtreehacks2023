@@ -48,11 +48,11 @@ namespace Oculus.Voice.Demo
             OVRInput.Update();
             if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0.0f && !_active)
             {
-                //SetActivation(true);
+                SetActivation(true);
             }
             else if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) == 0.0f && _active)
             {
-                //SetActivation(false);
+                SetActivation(false);
             }
         }
 

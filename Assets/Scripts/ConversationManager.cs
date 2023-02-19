@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class ConversationManager : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class ConversationManager : MonoBehaviour
     //      game transitions back to 'viewing stories' status
 
     public ChatGPTWrapper.ChatGPTConversation chatGPT;
+    public Text summaryUIText;
 
     private enum CONVERSATION_STATUS
     {
@@ -34,8 +37,10 @@ public class ConversationManager : MonoBehaviour
         CONVERSATION_COMPLETED
     }
 
-
+    private bool dalleRequested = false;
+    private bool summaryRequested = false;
     private CONVERSATION_STATUS currentStatus;
+    public TTSManager tts;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,13 +50,21 @@ public class ConversationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // If the user presses the left trigger to end the conversation and its not already ending
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.0f && currentStatus != CONVERSATION_STATUS.CONVERSATION_CLOSING)
+        {
+            EndConversationClicked();
+        }
     }
 
     public void BeginConversation()
     {
+        summaryRequested = false;
+        dalleRequested = false;
         currentStatus = CONVERSATION_STATUS.GATHERING_NAME_AND_TOPIC;
         //Prompt user for their name and topic through TTS.
+        tts.SpeakText("What's your name, and what event or topic would you like to " +
+            "chat about today?");
     }
 
     public void DoIntroductionAndStartConversation(string nameAndTopic)
@@ -70,8 +83,9 @@ public class ConversationManager : MonoBehaviour
             "end the conversation and generate a summary of the story. REMEMBER: 1. You are NOT " +
             "supposed to generate the response for the person you are interviewing - you are only " +
             "supposed to ask questions. Their input will come in a response form as text. 2. Do not " +
-            "forget to reasonable engage the person as much as possible with the goal of gathering details" +
-            "for a summary of the story, but also to make them feel like they're having fun. As for the " +
+            "forget to reasonably engage the person with the goal of gathering details, but also don't dive" +
+            "too deep into one topic. Ask about other aspects of their topic/experience rather than laser focusing in " +
+            "on only one things. Make them feel like they're having fun also! As for the " +
             "person you are extracting the information from, they were asked to provide a summary of their" +
             "name and what topic they wanted to talk about. Their response was: '" + text + "'. Your name, " +
             "the interviewer, is John. You may introduce yourself and ask your first question about the topic they " +
@@ -103,6 +117,21 @@ public class ConversationManager : MonoBehaviour
         UserResponded(GetGoodbyePrompt());
 
         //Add a call to a 4 second wait for the summary prompt to be called.
+        StartCoroutine(GenerateSummaryWithDelay());
+    }
+
+
+    private string GetDALLEPrompt()
+    {
+        string message = "";
+        return message;
+    }
+
+    IEnumerator GenerateSummaryWithDelay()
+    {
+        yield return new WaitForSeconds(4f); // Sleep for 4 seconds
+        summaryRequested = true;
+        chatGPT.SendToChatGPT(GetSummaryPrompt());
     }
 
     //When the user responds
@@ -129,9 +158,25 @@ public class ConversationManager : MonoBehaviour
     // AI interaction
     public void AIResponded(string text)
     {
+        Debug.Log("Response from AI has arrived");
+        if (dalleRequested)
+        {
+            // use the dalle prompt to create a request for a representative image.
+        }
+        else if(summaryRequested)
+        {
+            // save the summary or display it.
+            summaryUIText.text = text;
+            chatGPT.SendToChatGPT(GetDALLEPrompt());
+            dalleRequested = true;
+        } else
+        {
+            Debug.Log("AI Responded: " + text);
+            // Text to speech the response
+            tts.SpeakText(text);
+            
+        }
         
-        // Text to speech the response
-        Debug.Log("AI Responded: " + text);
 
     }
 }
