@@ -109,7 +109,7 @@ namespace Universe
             {
                 Debug.Log("Done.");
                 // Renderer renderer = testCube.GetComponent<Renderer>();
-                testCube.texture = texture;
+                //testCube.texture = texture;
             },
             useCache: true,
             width: 256, height: 256

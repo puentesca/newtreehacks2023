@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class ConversationManager : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class ConversationManager : MonoBehaviour
     //      game transitions back to 'viewing stories' status
 
     public ChatGPTWrapper.ChatGPTConversation chatGPT;
+    public Text summaryUIText;
 
     private enum CONVERSATION_STATUS
     {
@@ -47,7 +50,11 @@ public class ConversationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // If the user presses the left trigger to end the conversation and its not already ending
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.0f && currentStatus != CONVERSATION_STATUS.CONVERSATION_CLOSING)
+        {
+            EndConversationClicked();
+        }
     }
 
     public void BeginConversation()
@@ -56,6 +63,8 @@ public class ConversationManager : MonoBehaviour
         dalleRequested = false;
         currentStatus = CONVERSATION_STATUS.GATHERING_NAME_AND_TOPIC;
         //Prompt user for their name and topic through TTS.
+        tts.SpeakText("What's your name, and what event or topic would you like to " +
+            "chat about today?");
     }
 
     public void DoIntroductionAndStartConversation(string nameAndTopic)
@@ -148,6 +157,7 @@ public class ConversationManager : MonoBehaviour
     // AI interaction
     public void AIResponded(string text)
     {
+        Debug.Log("Response from AI has arrived");
         if (dalleRequested)
         {
             // use the dalle prompt to create a request for a representative image.
@@ -155,13 +165,15 @@ public class ConversationManager : MonoBehaviour
         else if(summaryRequested)
         {
             // save the summary or display it.
+            summaryUIText.text = text;
             chatGPT.SendToChatGPT(GetDALLEPrompt());
             dalleRequested = true;
-        } else if (dalleRequested)
+        } else
         {
+            Debug.Log("AI Responded: " + text);
             // Text to speech the response
             tts.SpeakText(text);
-            Debug.Log("AI Responded: " + text);
+            
         }
         
 
