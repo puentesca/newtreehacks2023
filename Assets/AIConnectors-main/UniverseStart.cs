@@ -15,8 +15,7 @@ namespace Universe
     // Here we show how a cube is textured via StableDiffusion, and a
     // text completed via GPT-3.
 	
-    RawImage testCube = null;
-    
+[SerializeField] GameObject testCube = null;    
     TextAI textAI = null;
 
     void Awake()
@@ -109,7 +108,7 @@ namespace Universe
             imageAI.GetImage(prompt, (Texture2D texture) =>
             {
                 Debug.Log("Done.");
-                //Renderer renderer = testCube.GetComponent<Renderer>();
+                // Renderer renderer = testCube.GetComponent<Renderer>();
                 testCube.texture = texture;
             },
             useCache: true,
