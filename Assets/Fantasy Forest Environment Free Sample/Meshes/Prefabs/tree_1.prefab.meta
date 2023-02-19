@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Oculus/OculusProjectConfig.asset.meta
-guid: bfc058304c10d4217813d6036aea8ba6
-========
 guid: eded051879df4c147b9010199d240258
->>>>>>>> 071236b6becc9974f17477f8ac959e2f00fe091d:Assets/Fantasy Forest Environment Free Sample/Meshes/Prefabs/tree_1.prefab.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 100100000

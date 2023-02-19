@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/XR/Settings/OculusSettings.asset.meta
-guid: c0b648408eb6148ccb6f0342cd0145e6
-========
 guid: 84e004e54aa75074885db0856eedb697
->>>>>>>> 071236b6becc9974f17477f8ac959e2f00fe091d:Assets/Fantasy Forest Environment Free Sample/PostProcessing Profile.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

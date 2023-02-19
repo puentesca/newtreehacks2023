@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/XR/Loaders/OculusLoader.asset.meta
-guid: b8af904851d1e41c3881a207a7a57a67
-========
 guid: 16a185093c7e02d40a49265c23c74417
->>>>>>>> 071236b6becc9974f17477f8ac959e2f00fe091d:Assets/Fantasy Forest Environment Free Sample/Materials/tree_branches.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000
