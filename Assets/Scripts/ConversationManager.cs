@@ -166,7 +166,7 @@ public class ConversationManager : MonoBehaviour
         else if(summaryRequested)
         {
             // save the summary or display it.
-            summaryUIText.text = text;
+            summaryUIText.text = "YOUR STORY: " + text;
             chatGPT.SendToChatGPT(GetDALLEPrompt());
             dalleRequested = true;
         } else
