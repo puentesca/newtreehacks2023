@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Universe;
 
 
 public class ConversationManager : MonoBehaviour
@@ -26,6 +27,10 @@ public class ConversationManager : MonoBehaviour
 
     public ChatGPTWrapper.ChatGPTConversation chatGPT;
     public Text summaryUIText;
+    public GameObject cube;
+    public UniverseStart us;
+    public GameManager gameMan;
+    public Text aiDialogue;
 
     private enum CONVERSATION_STATUS
     {
@@ -39,6 +44,7 @@ public class ConversationManager : MonoBehaviour
 
     private bool dalleRequested = false;
     private bool summaryRequested = false;
+    private bool cooldown = true;
     private CONVERSATION_STATUS currentStatus;
     public TTSManager tts;
     // Start is called before the first frame update
@@ -50,6 +56,7 @@ public class ConversationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        OVRInput.Update();
         // If the user presses the left trigger to end the conversation and its not already ending
         if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.0f && currentStatus != CONVERSATION_STATUS.CONVERSATION_CLOSING)
         {
@@ -61,10 +68,19 @@ public class ConversationManager : MonoBehaviour
     {
         summaryRequested = false;
         dalleRequested = false;
+        cube.SetActive(false);
+        summaryUIText.text = "";
         currentStatus = CONVERSATION_STATUS.GATHERING_NAME_AND_TOPIC;
         //Prompt user for their name and topic through TTS.
-        tts.SpeakText("What's your name, and what event or topic would you like to " +
+        tts.SpeakText("Hey there! What's your name, and what event or topic would you like to " +
             "chat about today?");
+        StartCoroutine(Cooldown());
+    }
+
+    IEnumerator Cooldown()
+    {
+        yield return new WaitForSeconds(12f); // Sleep for 4 seconds
+        cooldown = false;
     }
 
     public void DoIntroductionAndStartConversation(string nameAndTopic)
@@ -112,18 +128,27 @@ public class ConversationManager : MonoBehaviour
     // Claled when player hits button to end the conversation with AI
     public void EndConversationClicked()
     {
+        if(cooldown)
+        {
+            return;
+        }
+    
         // have AI summarize and create a tagline for the dalle generation
         currentStatus = CONVERSATION_STATUS.CONVERSATION_CLOSING;
         UserResponded(GetGoodbyePrompt());
 
         //Add a call to a 4 second wait for the summary prompt to be called.
         StartCoroutine(GenerateSummaryWithDelay());
+        cooldown = true;
     }
 
 
     private string GetDALLEPrompt()
     {
-        string message = "";
+        string message = "Thank you for the summary. Now, summarize the entire story" +
+            "into a one-liner that could be used to generate a image representative" +
+            "of the entire story.";
+
         return message;
     }
 
@@ -155,6 +180,12 @@ public class ConversationManager : MonoBehaviour
         
     }
 
+    IEnumerator Done()
+    {
+        yield return new WaitForSeconds(25f); // Sleep for 4 seconds
+        gameMan.EndConversationAnimationCompleted();
+    }
+
     // AI interaction
     public void AIResponded(string text)
     {
@@ -162,6 +193,9 @@ public class ConversationManager : MonoBehaviour
         if (dalleRequested)
         {
             // use the dalle prompt to create a request for a representative image.
+            cube.SetActive(true);
+            us.TestImageAIDallE(text);
+            StartCoroutine(Done());
         }
         else if(summaryRequested)
         {
@@ -173,6 +207,7 @@ public class ConversationManager : MonoBehaviour
         {
             Debug.Log("AI Responded: " + text);
             // Text to speech the response
+            aiDialogue.text = text;
             tts.SpeakText(text);
             
         }

@@ -11,6 +11,12 @@ public class GameManager : MonoBehaviour
 
     public ConversationManager convoManager;
 
+    public GameObject JohnCharacter;
+    public GameObject JohnUI;
+    public GameObject JohnVoiceGameobject;
+
+    public GameObject homeScreenUI;
+
     enum STATUS
     {
         VIEWING_STORIES,
@@ -23,12 +29,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerStatus = STATUS.VIEWING_STORIES;
-        StartConversationFinished();
+        homeScreenUI.SetActive(true);
+        JohnCharacter.SetActive(false);
+        JohnUI.SetActive(false);
+        JohnVoiceGameobject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         
     }
 
@@ -44,6 +54,10 @@ public class GameManager : MonoBehaviour
         playerStatus = STATUS.CONVERSING;
         convoManager.BeginConversation();
         // Begin actual conversation through ConversationManager
+        homeScreenUI.SetActive(false);
+        JohnCharacter.SetActive(true);
+        JohnUI.SetActive(true);
+        JohnVoiceGameobject.SetActive(true);
     }
 
     // Player wants to stop talking about the story
@@ -56,11 +70,18 @@ public class GameManager : MonoBehaviour
     public void EndConversationFinished()
     {
         // Conversation completed - Initiate finished animations
+
+        EndConversationAnimationCompleted();
     }
 
     public void EndConversationAnimationCompleted()
     {
         playerStatus = STATUS.VIEWING_STORIES;
-        //
+
+        //Transition back to home screen
+        homeScreenUI.SetActive(true);
+        JohnCharacter.SetActive(false);
+        JohnUI.SetActive(false);
+        JohnVoiceGameobject.SetActive(false);
     }
 }

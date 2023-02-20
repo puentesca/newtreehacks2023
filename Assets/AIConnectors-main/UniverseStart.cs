@@ -20,7 +20,7 @@ namespace Universe
 
     void Awake()
     {
-        string openAIKey = "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";
+        string openAIKey = "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";
         TextAI.key  = openAIKey;
         CoroutineVariant.TextAI.key = openAIKey;
         ImageAIDallE.key = openAIKey;
@@ -29,12 +29,13 @@ namespace Universe
 
     void Start()
     {
-        // TestTextAI();
-        TestImageAIDallE();
-        //TestImageAI();
+            // TestTextAI();
+            //TestImageAIDallE("Dog in water");
+            //TestImageAI();
+            //TestImageAIDallE("Dog in water");
 
         // StartCoroutine(TestWhenAll_Coroutine());
-    }
+        }
 
     async void TestTextAI()
     {
@@ -116,11 +117,10 @@ namespace Universe
         ));
     }
 
-    void TestImageAIDallE()
+    public void TestImageAIDallE(string prompt)
     {
         ImageAIDallE imageAI = Misc.GetAddComponent<ImageAIDallE>(gameObject);
 
-        string prompt ="Adventure, Thrills, and Family: Exploring Chile through White Water Rafting, minimalist 3d";
         Debug.Log("Sending prompt " + prompt);
 
         const int size = 1024;
